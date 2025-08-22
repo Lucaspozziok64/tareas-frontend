@@ -69,7 +69,6 @@ const FormularioTareas = () => {
               type="text"
               placeholder="Ingresa una tarea"
               onChange={(e) => setTareas(e.target.value)}
-              required
               {...register("inputTarea", {
                 required: "La tarea es un dato obligatorio",
                 minLength: {
