@@ -15,6 +15,11 @@ const FormularioTareas = () => {
 
   const agregarTareas = (data) => {
     console.log("Aqui deberia agregar tareas");
+
+    console.log(data.inputTarea)
+
+    setTareas([...tareas, data.inputTarea])
+    reset()
   };
 
   return (
@@ -51,7 +56,7 @@ const FormularioTareas = () => {
             {errors.inputTarea?.message}
           </Form.Text>
         </Form>
-        <ListaTareas />
+        <ListaTareas tareas={tareas}/>
       </div>
     </>
   );
