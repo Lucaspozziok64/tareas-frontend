@@ -3,9 +3,11 @@ import Button from "react-bootstrap/Button";
 import ListaTareas from "./ListaTareas";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 const FormularioTareas = () => {
-  const tareasLocalStorage = JSON.parse(localStorage.getItem("listaTareas")) || [];
+  const tareasLocalStorage =
+    JSON.parse(localStorage.getItem("listaTareas")) || [];
   const [tareas, setTareas] = useState(tareasLocalStorage);
   const {
     register,
@@ -14,24 +16,49 @@ const FormularioTareas = () => {
     formState: { errors },
   } = useForm();
 
-  useEffect(()=> {
-    console.log('desde useEffect')
-    localStorage.setItem("listaTareas", JSON.stringify(tareas))
-  }, [tareas])
+  useEffect(() => {
+    console.log("desde useEffect");
+    localStorage.setItem("listaTareas", JSON.stringify(tareas));
+  }, [tareas]);
 
   const agregarTareas = (data) => {
     console.log("Aqui deberia agregar tareas");
 
-    console.log(data.inputTarea)
+    console.log(data.inputTarea);
 
-    setTareas([...tareas, data.inputTarea])
-    reset()
+    setTareas([...tareas, data.inputTarea]);
+    reset();
+
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Tarea creada exitosamente",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
 
-    const borrarTarea = (nombreTarea) => {
-    const tareasFiltradas = tareas.filter((item) => item !== nombreTarea);
-    //Actualizar el estado tareas
-    setTareas(tareasFiltradas);
+  const borrarTarea = (nombreTarea) => {
+    Swal.fire({
+      title: "Estas seguro/a?",
+      text: "No podras revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const tareasFiltradas = tareas.filter((item) => item !== nombreTarea);
+        //Actualizar el estado tareas
+        setTareas(tareasFiltradas);
+        Swal.fire({
+          title: "Tarea Eliminada!",
+          text: "La tarea ha sido eliminada",
+          icon: "success",
+        });
+      }
+    });
   };
 
   return (
@@ -48,12 +75,12 @@ const FormularioTareas = () => {
                 required: "La tarea es un dato obligatorio",
                 minLength: {
                   value: 4,
-                  message: 'La tarea debe contener 4 caracteres como minimo',
+                  message: "La tarea debe contener 4 caracteres como minimo",
                 },
                 maxLength: {
                   value: 20,
-                  message: 'La tareas debe contener 20 caracteres como minimo'
-                }
+                  message: "La tareas debe contener 20 caracteres como minimo",
+                },
               })}
             />
             <Button
