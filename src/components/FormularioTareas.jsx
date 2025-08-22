@@ -62,9 +62,8 @@ const FormularioTareas = () => {
   };
 
   return (
-    <>
-      <div className="container w-50">
-        <Form onSubmit={handleSubmit(agregarTareas)}>
+      <div>
+        <Form className="container contenedorForm" onSubmit={handleSubmit(agregarTareas)}>
           <Form.Group className="d-flex">
             <Form.Control
               type="text"
@@ -97,7 +96,6 @@ const FormularioTareas = () => {
         </Form>
         <ListaTareas tareas={tareas} borrarTarea={borrarTarea} />
       </div>
-    </>
   );
 };
 

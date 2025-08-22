@@ -1,0 +1,11 @@
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+@media (min-width: 997px) {
+    .contenedorForm {
+        width: 700px !important;
+    }
+}
