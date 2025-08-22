@@ -4,6 +4,7 @@ import ListaTareas from "./ListaTareas";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { v4 as uuidv4 } from "uuid";
 
 const FormularioTareas = () => {
   const tareasLocalStorage =
@@ -22,11 +23,13 @@ const FormularioTareas = () => {
   }, [tareas]);
 
   const agregarTareas = (data) => {
-    console.log("Aqui deberia agregar tareas");
 
-    console.log(data.inputTarea);
+    const nuevaTarea = {
+      id: uuidv4(),
+      nombreTarea: data.inputTarea
+    }
 
-    setTareas([...tareas, data.inputTarea]);
+    setTareas([...tareas, nuevaTarea]);
     reset();
 
     Swal.fire({
@@ -38,7 +41,7 @@ const FormularioTareas = () => {
     });
   };
 
-  const borrarTarea = (nombreTarea) => {
+  const borrarTarea = (idTarea) => {
     Swal.fire({
       title: "Estas seguro/a?",
       text: "No podras revertir esto!",
@@ -49,7 +52,7 @@ const FormularioTareas = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        const tareasFiltradas = tareas.filter((item) => item !== nombreTarea);
+        const tareasFiltradas = tareas.filter((item) => item.id !== idTarea);
         //Actualizar el estado tareas
         setTareas(tareasFiltradas);
         Swal.fire({
