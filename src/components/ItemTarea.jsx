@@ -8,7 +8,7 @@ const ItemTarea = () => {
         ✍️<strong className="mx-2">Dapibus ac facilisis in</strong>
       </p>
       <Button variant="danger">
-        <i class="bi bi-trash3-fill"></i>
+        <i className="bi bi-trash3-fill"></i>
       </Button>
     </ListGroup.Item>
   );
