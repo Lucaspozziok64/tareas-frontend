@@ -2,16 +2,22 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ListaTareas from "./ListaTareas";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const FormularioTareas = () => {
-  const [tareas, setTareas] = useState([]);
+  const tareasLocalStorage = JSON.parse(localStorage.getItem("listaTareas")) || [];
+  const [tareas, setTareas] = useState(tareasLocalStorage);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
+
+  useEffect(()=> {
+    console.log('desde useEffect')
+    localStorage.setItem("listaTareas", JSON.stringify(tareas))
+  }, [tareas])
 
   const agregarTareas = (data) => {
     console.log("Aqui deberia agregar tareas");
@@ -20,6 +26,12 @@ const FormularioTareas = () => {
 
     setTareas([...tareas, data.inputTarea])
     reset()
+  };
+
+    const borrarTarea = (nombreTarea) => {
+    const tareasFiltradas = tareas.filter((item) => item !== nombreTarea);
+    //Actualizar el estado tareas
+    setTareas(tareasFiltradas);
   };
 
   return (
@@ -56,7 +68,7 @@ const FormularioTareas = () => {
             {errors.inputTarea?.message}
           </Form.Text>
         </Form>
-        <ListaTareas tareas={tareas}/>
+        <ListaTareas tareas={tareas} borrarTarea={borrarTarea} />
       </div>
     </>
   );
