@@ -1,13 +1,31 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import ItemTarea from "./ItemTarea";
+import { useEffect, useState } from "react";
+import { leerTareas } from "../helpers/queries";
 
 const ListaTareas = ({ tareas, borrarTarea }) => {
+
+    const [listaTareas, setListaTareas] = useState([])
+
+  useEffect(()=> {
+    obtenerTareas();
+  }, [])
+
+  const obtenerTareas = async () => {
+    const respuesta = await leerTareas()
+    if(respuesta.status === 200 ) {
+      const datos = await respuesta.json();
+      setListaTareas(datos)
+    } else {
+      console.info('Ocurrio un error al buscar los productos');
+    }
+  }
 
   return (
     <div>
       <ListGroup className="my-4">
-        {tareas.map((tarea) => (
-          <ItemTarea key={tarea.id} tarea={tarea} borrarTarea={borrarTarea} />
+        {listaTareas.map((tarea) => (
+          <ItemTarea key={tarea._id} tarea={tarea} borrarTarea={borrarTarea} />
         ))}
       </ListGroup>
     </div>
