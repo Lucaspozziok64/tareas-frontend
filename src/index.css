@@ -1,11 +1,27 @@
 #root {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: -webkit-linear-gradient(
+    90deg,
+    #990036,
+    #000000,
+    #b30056
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    90deg,
+    #990036,
+    #000000,
+    #b30056
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+main {
+  flex-grow: 1;
 }
 
 @media (min-width: 997px) {
-    .contenedorForm {
-        width: 700px !important;
-    }
+  .contenedorForm {
+    width: 700px !important;
+  }
 }
