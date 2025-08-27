@@ -5,12 +5,9 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { v4 as uuidv4 } from "uuid";
-import { borrarTareaPorId, leerTareas } from "../helpers/queries";
+import { borrarTareaPorId, crearTarea, leerTareas } from "../helpers/queries";
 
 const FormularioTareas = () => {
-  const tareasLocalStorage =
-    JSON.parse(localStorage.getItem("listaTareas")) || [];
-  const [tareas, setTareas] = useState(tareasLocalStorage);
   const [listaTareas, setListaTareas] = useState([]);
   const {
     register,
@@ -19,30 +16,30 @@ const FormularioTareas = () => {
     formState: { errors },
   } = useForm();
 
-  useEffect(() => {
-    console.log("desde useEffect");
-    localStorage.setItem("listaTareas", JSON.stringify(tareas));
-  }, [tareas]);
-
-  const agregarTareas = (data) => {
+  const agregarTareas = async (data) => {
     const nuevaTarea = {
       id: uuidv4(),
       nombreTarea: data.inputTarea,
     };
-
-    setListaTareas([...listaTareas, nuevaTarea]);
     reset();
 
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Tarea creada exitosamente",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    const respuesta = await crearTarea(nuevaTarea);
+    if (respuesta.status == 200) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Tarea creada exitosamente",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+    const respuestaProductos = await leerTareas();
+    const productosActualizados = await respuestaProductos.json();
+    setListaTareas(productosActualizados);
+    //Actualizar el estado tareas
   };
 
-  const borrarTarea = (idTarea) => {
+  const borrarTarea = (id) => {
     Swal.fire({
       title: "Estas seguro/a?",
       text: "No podras revertir esto!",
@@ -53,7 +50,7 @@ const FormularioTareas = () => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const respuesta = await borrarTareaPorId(idTarea);
+        const respuesta = await borrarTareaPorId(id);
         if (respuesta.status === 200) {
           Swal.fire({
             title: "Tarea Eliminada!",
@@ -79,7 +76,7 @@ const FormularioTareas = () => {
           <Form.Control
             type="text"
             placeholder="Ingresa una tarea"
-            onChange={(e) => setTareas(e.target.value)}
+            onChange={(e) => setListaTareas(e.target.value)}
             {...register("inputTarea", {
               required: "La tarea es un dato obligatorio",
               minLength: {
@@ -101,7 +98,6 @@ const FormularioTareas = () => {
         </Form.Text>
       </Form>
       <ListaTareas
-        tareas={tareas}
         borrarTarea={borrarTarea}
         setListaTareas={setListaTareas}
         listaTareas={listaTareas}

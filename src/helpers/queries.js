@@ -23,3 +23,19 @@ export const borrarTareaPorId = async (id) => {
         return null
     }
 }
+
+export const crearTarea = async (tareaNueva) => {
+    try {
+        const respuesta = await fetch(urltareas, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(tareaNueva)
+        })
+        return respuesta
+    } catch (error) {
+        console.error(error)
+        return null
+    }
+}
