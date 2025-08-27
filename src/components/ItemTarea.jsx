@@ -7,9 +7,14 @@ const ItemTarea = ({ tarea, borrarTarea }) => {
       <p className="mb-0 d-flex justify-content-center align-items-center">
         ✍️<strong className="mx-2">{tarea.nombreTarea}</strong>
       </p>
-      <Button variant="danger" onClick={()=> borrarTarea(tarea._id)}>
+      <div>
+      <Button variant="warning" className="mx-2">
+        <i className="bi bi-pencil-square"></i>
+      </Button>
+      <Button variant="danger" onClick={() => borrarTarea(tarea._id)}>
         <i className="bi bi-trash3-fill"></i>
       </Button>
+      </div>
     </ListGroup.Item>
   );
 };
