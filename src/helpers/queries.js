@@ -11,3 +11,15 @@ export const leerTareas = async () => {
         return null
     }
 }
+
+export const borrarTareaPorId = async (id) => {
+    try {
+        const respuesta = await fetch(urltareas + `/${id}`, {
+            method: 'DELETE',
+        })
+        return respuesta
+    } catch (error) {
+        console.error(error)
+        return null
+    }
+}

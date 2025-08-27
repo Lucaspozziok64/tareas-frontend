@@ -3,9 +3,7 @@ import ItemTarea from "./ItemTarea";
 import { useEffect, useState } from "react";
 import { leerTareas } from "../helpers/queries";
 
-const ListaTareas = ({ tareas, borrarTarea }) => {
-
-    const [listaTareas, setListaTareas] = useState([])
+const ListaTareas = ({ tareas, borrarTarea, setListaTareas, listaTareas }) => {
 
   useEffect(()=> {
     obtenerTareas();
