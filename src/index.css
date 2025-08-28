@@ -20,6 +20,10 @@ main {
   flex-grow: 1;
 }
 
+.colorFondoModal {
+  background-color: rgba(0, 0, 0, 0.8); /* 70% de opacidad del negro */
+}
+
 @media (min-width: 997px) {
   .contenedorForm {
     width: 700px !important;

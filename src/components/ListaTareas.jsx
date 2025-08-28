@@ -3,7 +3,7 @@ import ItemTarea from "./ItemTarea";
 import { useEffect, useState } from "react";
 import { leerTareas } from "../helpers/queries";
 
-const ListaTareas = ({ tareas, borrarTarea, setListaTareas, listaTareas }) => {
+const ListaTareas = ({ tareas, borrarTarea, setListaTareas, listaTareas, handleShow }) => {
 
   useEffect(()=> {
     obtenerTareas();
@@ -23,7 +23,7 @@ const ListaTareas = ({ tareas, borrarTarea, setListaTareas, listaTareas }) => {
     <div>
       <ListGroup className="my-4">
         {listaTareas.map((tarea) => (
-          <ItemTarea key={tarea._id} tarea={tarea} borrarTarea={borrarTarea} />
+          <ItemTarea key={tarea._id} tarea={tarea} borrarTarea={borrarTarea} handleShow={handleShow} />
         ))}
       </ListGroup>
     </div>

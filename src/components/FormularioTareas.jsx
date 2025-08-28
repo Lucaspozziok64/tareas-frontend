@@ -6,9 +6,15 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { v4 as uuidv4 } from "uuid";
 import { borrarTareaPorId, crearTarea, leerTareas } from "../helpers/queries";
+import Modal from "react-bootstrap/Modal";
 
 const FormularioTareas = () => {
   const [listaTareas, setListaTareas] = useState([]);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const {
     register,
     handleSubmit,
@@ -101,7 +107,21 @@ const FormularioTareas = () => {
         borrarTarea={borrarTarea}
         setListaTareas={setListaTareas}
         listaTareas={listaTareas}
+        handleShow={handleShow}
       />
+      <Modal className="colorFondoModal" show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title className="d-flex justify-content-center w-100">¿Quieres modificar esta tarea?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="d-flex justify-content-center">
+          <input type="text" className="w-75" />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" onClick={handleClose}>
+            Editar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
