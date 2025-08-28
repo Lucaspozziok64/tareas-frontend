@@ -39,3 +39,29 @@ export const crearTarea = async (tareaNueva) => {
         return null
     }
 }
+
+export const obtenerTareaPorId = async (id) => {
+    try {
+        const respuesta = await fetch(urltareas + `/${id}`)
+        return respuesta
+    } catch (error) {
+        console.error(error)
+        return null
+    }
+}
+
+export const editarTareaPorId = async (id, tareaEditada) => {
+    try {
+        const respuesta = await fetch(urltareas + `/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(tareaEditada)
+        })
+        return respuesta
+    } catch (error) {
+        console.error(error)
+        return null
+    }
+}
