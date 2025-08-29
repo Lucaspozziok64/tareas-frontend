@@ -78,13 +78,28 @@ const FormularioTareas = () => {
     } else {
       Swal.fire({
         icon: "error",
-        title: "No se pudo modificar la tarea",
-        text: "Intenta nuevamente",
+        title: "No se pudo modificar la tarea y/o verifica si ya existe",
+        text: "De lo contrario, intenta nuevamente",
       });
+      handleClose()
     }
   };
 
   const agregarTareas = async (data) => {
+    const nombreNuevo = data.inputTarea.trim().toLowerCase();
+
+    const yaExiste = listaTareas.some(
+      (tarea) => tarea.nombreTarea.trim().toLowerCase() === nombreNuevo
+    );
+
+    if (yaExiste) {
+      Swal.fire({
+        icon: "warning",
+        title: "Tarea duplicada",
+        text: "Ya existe una tarea con ese nombre",
+      });
+      return; // salimos sin crear
+    }
     const nuevaTarea = {
       id: uuidv4(),
       nombreTarea: data.inputTarea,
@@ -171,7 +186,7 @@ const FormularioTareas = () => {
         handleShow={handleShow}
         cargarTareaEnModal={cargarTareaEnModal}
       />
-      <Modal className="colorFondoModal" show={show} onHide={handleClose}>
+      <Modal backdrop={'static'} className="colorFondoModal" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title className="d-flex justify-content-center w-100">
             ¿Quieres modificar esta tarea?
